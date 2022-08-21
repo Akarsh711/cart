@@ -10,7 +10,7 @@ class Cart extends React.Component {
           price: 99,
           title: 'Watch',
           qty: 1,
-          img: '',
+          img: 'https://m.media-amazon.com/images/I/81nC4u9eYfL._UY445_.jpg',
           id: 1
         },
         {
@@ -32,6 +32,43 @@ class Cart extends React.Component {
     // this.increaseQuantity = this.increaseQuantity.bind(this);
     // this.testing();
   }
+  handleIncreaseQuantity = (product) => {
+    console.log('Heyy please inc the qty of ', product);
+    const { products } = this.state;
+    const index = products.indexOf(product);
+
+    products[index].qty += 1;
+
+    this.setState({
+      products
+    })
+  }
+
+  handledecreaseQuantity = (product) => {
+    console.log('Heyy please inc the qty of ', product);
+    const { products } = this.state;
+    const index = products.indexOf(product);
+    if(products[index].qty==0)
+    {
+      return ;
+    }
+    products[index].qty -= 1;
+
+    this.setState({
+      products
+    })
+  }
+
+  handleDeleteProduct = (id) => {
+    const { products } = this.state;
+
+    const items = products.filter((item) => item.id !== id); // [{}]
+
+    this.setState({
+      products: items
+    })
+  }
+
   render () {
     const { products } = this.state;
     return (
@@ -41,6 +78,9 @@ class Cart extends React.Component {
             <CartItem
               product={product}
               key={product.id}
+              onIncreaseQuantity={this.handleIncreaseQuantity}
+              ondecreaseQuantity={this.handledecreaseQuantity}
+              onDeleteProduct={this.handleDeleteProduct}
             />
           )
         })}
